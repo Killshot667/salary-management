@@ -9,7 +9,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Department, Post, Leave, Holiday, Employee,hrProfile
 from django.views.generic import TemplateView,CreateView,DetailView
 from .forms import *
-
+from django.core.paginator import Paginator
+from .filters import *
+from .templatetags import doctor_extras
 from django.contrib.auth.decorators import login_required
 
 
@@ -61,6 +63,15 @@ def HrProfile(request,pk):
     return render(request,'profile/hrProfile.html',context)
 
 
+def EmployeeProfile(request,pk):
+    employeeprofile=get_object_or_404(Employee,id=pk)
+  
+    context={
+        'employee':employeeprofile,
+    }
+    return render(request,'profile/employeeprofile.html',context)
+
+
 @login_required
 # def profile(request):
 #   if request.method == 'POST':
@@ -107,9 +118,31 @@ def handelLogout(request):
     return redirect('home')
 
 def view_list(request):
-    employees = Employee.objects.all()
-    return render(request,'payroll/employee_list.html',{'employees':employees})
+    employees=Employee.objects.all()
+    myFilter1=search_doctor(request.GET,queryset=employees)
+
+    employees=myFilter1.qs
+    paginated_list=Paginator(employees,2)
+    page_number=request.GET.get('page')
+    employee_page_obj=paginated_list.get_page(page_number)
+    context={'employees':employees,'myFilter1':myFilter1,'employee_page_obj':employee_page_obj}
+    return render(request,'payroll/employee_list.html',context)
+    
 
 def EmployeeProfile(request,pk):
     employee = Employee.objects.get(id=pk)
-    return render(request,'payroll/employee_each.html',{'employee':employee})
+    return render(request,'profile/employeeProfile.html',{'employee':employee})
+
+   
+class ShowProfilePageView(DetailView):
+	model = Employee
+	template_name = 'profile/employeeProfile.html'
+
+	def get_context_data(self, *args, **kwargs):
+		#users = Profile.objects.all()
+		context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
+		
+		page_user = get_object_or_404(Employee, id=self.kwargs['pk'])
+
+		context["page_user"] = page_user
+		return context

@@ -43,7 +43,7 @@ class Holiday(models.Model):
 class Employee(models.Model):
     user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
     full_name = models.CharField(max_length=50,null = True)
-    profile_pic=models.ImageField(upload_to='images/profile', blank = True, default='images/profile/default2.jpeg')
+    profile_pic=models.ImageField(upload_to='images/profile', blank = True, default='images/profile/default2.jpg')
     phone=PhoneNumberField(blank = True)
     address=models.TextField(blank = True, max_length=255)
     department = models.ForeignKey(Department,null=True,on_delete=models.CASCADE)

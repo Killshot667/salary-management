@@ -18,14 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from .views import ShowProfilePageView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout', views.handelLogout, name = "handleLogout"),
     path('view_list/',views.view_list,name='view_list'),
-    path('employee/<int:pk>',views.EmployeeProfile,name='EmployeeProfile'),
+    path('<int:pk>/view_profile',ShowProfilePageView.as_view() ,name = 'profile'),
     path('hrprofile/<int:pk>',views.HrProfile,name='HrProfile'),
+    path('employeeprofile/<int:pk>',views.EmployeeProfile,name='EmployeeProfile'),
     # path('edit_profile/', views.profile, name='edit_profile'),
     
 ]
