@@ -6,12 +6,17 @@ from django.views.generic import DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import UserCreationForm
-from .models import Department, Post, Leave, Holiday, Employee,hrProfile
+from .models import Leave, Holiday, Employee,hrProfile,Contact
 from django.views.generic import TemplateView,CreateView,DetailView
 from .forms import *
+<<<<<<< HEAD
 from django.core.paginator import Paginator
 from .filters import *
 from .templatetags import doctor_extras
+=======
+
+
+>>>>>>> 51e6504b62a1d63aea37a8999d95fd5a28e2151b
 from django.contrib.auth.decorators import login_required
 
 
@@ -63,6 +68,7 @@ def HrProfile(request,pk):
     return render(request,'profile/hrProfile.html',context)
 
 
+<<<<<<< HEAD
 def EmployeeProfile(request,pk):
     employeeprofile=get_object_or_404(Employee,id=pk)
   
@@ -73,6 +79,8 @@ def EmployeeProfile(request,pk):
 
 
 @login_required
+=======
+>>>>>>> 51e6504b62a1d63aea37a8999d95fd5a28e2151b
 # def profile(request):
 #   if request.method == 'POST':
 #       u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -131,18 +139,5 @@ def view_list(request):
 
 def EmployeeProfile(request,pk):
     employee = Employee.objects.get(id=pk)
-    return render(request,'profile/employeeProfile.html',{'employee':employee})
+    return render(request,'payroll/employee_each.html',{'employee':employee})
 
-   
-class ShowProfilePageView(DetailView):
-	model = Employee
-	template_name = 'profile/employeeProfile.html'
-
-	def get_context_data(self, *args, **kwargs):
-		#users = Profile.objects.all()
-		context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
-		
-		page_user = get_object_or_404(Employee, id=self.kwargs['pk'])
-
-		context["page_user"] = page_user
-		return context
