@@ -26,18 +26,6 @@ class Holiday(models.Model):
         return self.holiday_name
         
 
-<<<<<<< HEAD
-class Employee(models.Model):
-    user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=50,null = True)
-    profile_pic=models.ImageField(upload_to='images/profile', blank = True, default='images/profile/default2.jpg')
-    phone=PhoneNumberField(blank = True)
-    address=models.TextField(blank = True, max_length=255)
-    department = models.ForeignKey(Department,null=True,on_delete=models.CASCADE)
-    post = models.ForeignKey(Post,null=True,on_delete=models.CASCADE)
-
-=======
->>>>>>> 51e6504b62a1d63aea37a8999d95fd5a28e2151b
 class Contact(models.Model):
 	sno=models.AutoField(primary_key=True)
 	name=models.CharField(max_length=250)
